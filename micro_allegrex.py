@@ -183,7 +183,7 @@ class PSPLifter(ida_hexrays.microcode_filter_t):
 		rt = ida_hexrays.reg2mreg(insn.Op2.reg)
 		rd = ida_hexrays.reg2mreg(insn.Op1.reg)
 
-		psp_intrinsic = PSPIntrinsic(cdg, "swap32")
+		psp_intrinsic = PSPIntrinsic(cdg, "byteswap32")
 		psp_intrinsic.add_argument_reg_basic(rt, ida_typeinf.BTF_UINT32)
 		psp_intrinsic.set_return_reg_basic(rd, ida_typeinf.BTF_UINT32)
 		psp_intrinsic.emit()
