@@ -1,5 +1,6 @@
 # MicroAllegrex
-Allegrex Plugin for IDA Hexrays Mips Decompiler. Plugin helps with basic decompilation of Allegrex specific opcodes.
+Allegrex Plugin for IDA Hexrays Mips Decompiler. Plugin helps with basic decompilation of Allegrex specific opcodes.\
+Based on MicroAVX by Markus Gaasedelen (https://github.com/gaasedelen/microavx)
 
 ## Supported opcodes:
 * bitrev
