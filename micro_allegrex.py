@@ -132,10 +132,12 @@ class PSPLifter(ida_hexrays.microcode_filter_t):
 	#--------------------------------------------------------------------------
 
 	def bitrev(self, cdg, insn):
-
-		rt = ida_hexrays.reg2mreg(insn.Op2.reg)
-		rd = ida_hexrays.reg2mreg(insn.Op1.reg)
-
+	
+		opcode = ida_bytes.get_wide_dword(insn.ea)
+		rt = (opcode >> 16) & 0x1F
+		rd = (opcode >> 11) & 0x1F
+		rt = ida_hexrays.reg2mreg(rt)
+		rd = ida_hexrays.reg2mreg(rd)
 		psp_intrinsic = PSPIntrinsic(cdg, "bitrev")
 		psp_intrinsic.add_argument_reg_basic(rt, ida_typeinf.BTF_UINT32)
 		psp_intrinsic.set_return_reg_basic(rd, ida_typeinf.BTF_UINT32)
@@ -144,8 +146,9 @@ class PSPLifter(ida_hexrays.microcode_filter_t):
 
 	def mfic(self, cdg, insn):
 
-		rt = ida_hexrays.reg2mreg(insn.Op1.reg)
-
+		opcode = ida_bytes.get_wide_dword(insn.ea)
+		rt = (opcode >> 16) & 0x1F
+		rt = ida_hexrays.reg2mreg(rt)
 		psp_intrinsic = PSPIntrinsic(cdg, "getInterruptMask")
 		psp_intrinsic.set_return_reg_basic(rt, ida_typeinf.BTF_UINT32)
 		psp_intrinsic.emit()
@@ -161,10 +164,14 @@ class PSPLifter(ida_hexrays.microcode_filter_t):
 	#	return ida_hexrays.MERR_OK
 
 	def minmax(self, cdg, insn, funcName):
-		rs = ida_hexrays.reg2mreg(insn.Op2.reg)
-		rt = ida_hexrays.reg2mreg(insn.Op3.reg)
-		rd = ida_hexrays.reg2mreg(insn.Op1.reg)
 
+		opcode = ida_bytes.get_wide_dword(insn.ea)
+		rs = (opcode >> 21) & 0x1F
+		rt = (opcode >> 16) & 0x1F
+		rd = (opcode >> 11) & 0x1F
+		rs = ida_hexrays.reg2mreg(rs)
+		rt = ida_hexrays.reg2mreg(rt)
+		rd = ida_hexrays.reg2mreg(rd)
 		psp_intrinsic = PSPIntrinsic(cdg, funcName)
 		psp_intrinsic.add_argument_reg_basic(rs, ida_typeinf.BTF_INT32)
 		psp_intrinsic.add_argument_reg_basic(rt, ida_typeinf.BTF_INT32)
@@ -180,8 +187,11 @@ class PSPLifter(ida_hexrays.microcode_filter_t):
 
 	def wsbw(self, cdg, insn):
 
-		rt = ida_hexrays.reg2mreg(insn.Op2.reg)
-		rd = ida_hexrays.reg2mreg(insn.Op1.reg)
+		opcode = ida_bytes.get_wide_dword(insn.ea)
+		rt = (opcode >> 16) & 0x1F
+		rd = (opcode >> 11) & 0x1F
+		rt = ida_hexrays.reg2mreg(rt)
+		rd = ida_hexrays.reg2mreg(rd)
 
 		psp_intrinsic = PSPIntrinsic(cdg, "byteswap32")
 		psp_intrinsic.add_argument_reg_basic(rt, ida_typeinf.BTF_UINT32)
