@@ -216,12 +216,11 @@ class MicroAllegrex(ida_idaapi.plugin_t):
 	loaded = False
 
 	def init(self):
-
-		if not ida_ida.inf_get_procname() == 'psp':
+		if not ida_ida.inf_get_procname() == 'psp' or idc.get_idb_path()[-3:] == "i64":
 			return ida_idaapi.PLUGIN_SKIP
 
 		ida_loader.load_plugin("hexmips")
-		assert ida_hexrays.init_hexrays_plugin(), "Missing HexMips Decompiler..."
+		#assert ida_hexrays.init_hexrays_plugin(), "Missing HexMips Decompiler..."
 
 		self.psp_lifter = PSPLifter()
 		self.psp_lifter.install()
